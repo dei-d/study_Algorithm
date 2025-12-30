@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include "scheduler.h"
+#define TASK_MAX 10
+#define START_TIME 9.00
+#define END_TIME 20.00
+
+
+int main() {
+    int num;
+    double now_time = START_TIME; //9:00
+    Task task[TASK_MAX];
+    int ready = 0;
+    int notArrival = 0;
+
+    //scan
+    scanf("%d", &num);
+    printf("入力例:a 12.50(時) 2.00(時間) 3(数字が小さい方が優先度が高い)\n");
+    for(int i=0; i<num; i++) {
+        printf("%d個目:名前 到着時間 利用時間 優先順位 :", i+1);
+        scanf("%s %lf %lf %d", task[i].name, &task[i].a_time, &task[i].p_time, &task[i].pri);
+    }
+    
+    while(1) {   
+        if(now_time > END_TIME)
+            break;
+        notArrival = task_check(notArrival, num-1, task, now_time); 
+        if(ready != notArrival) {
+            insertion_sort(ready, notArrival-1, task);
+            task_implement(ready, task, now_time);
+            now_time += task[ready].p_time;
+            ready++;
+        }else {
+            printf("空き時間\n");
+            now_time++;
+        }
+    }
+    return 0;
+}
