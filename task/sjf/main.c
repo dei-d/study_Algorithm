@@ -20,19 +20,6 @@ int main() {
         scanf("%s %lf %lf %d", task[i].name, &task[i].a_time, &task[i].p_time, &task[i].pri);
     }
     
-    while(1) {   
-        if(now_time > END_TIME)
-            break;
-        notArrival = task_check(notArrival, num-1, task, now_time); 
-        if(ready != notArrival) {
-            insertion_sort(ready, notArrival-1, task);
-            task_implement(ready, task, now_time);
-            now_time += task[ready].p_time;
-            ready++;
-        }else {
-            printf("空き時間\n");
-            now_time++;
-        }
-    }
+    execute(num, &now_time, &ready, &notArrival, task);
     return 0;
 }
